@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_magic_sample/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +36,14 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(onPressed: () {}, child: Text('Login'))
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                  );
+                },
+                child: const Text('Login'))
           ],
         ),
       ),
