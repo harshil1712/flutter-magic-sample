@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:magic_sdk/magic_sdk.dart';
+import 'package:flutter_magic_sample/logout.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,6 +12,17 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final magic = Magic.instance;
+
+  Future loginFunction({required String email}) async {
+    try {
+      await magic.auth.loginWithMagicLink(email: _emailController.text);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const LogoutPage()));
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        debugPrint('Email: ${_emailController.text}');
+                        loginFunction(
+                          email: _emailController.text,
+                        );
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Check you email')));
                       }

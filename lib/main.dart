@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:magic_sdk/magic_sdk.dart';
+
 import 'package:flutter_magic_sample/login.dart';
 
 void main() {
   runApp(const MyApp());
+  Magic.instance = Magic("YOUR_PUBLISHABLE_KEY");
 }
 
 class MyApp extends StatelessWidget {
@@ -10,18 +13,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Magic',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+        home: Stack(children: [
+      MaterialApp(
+        title: 'Flutter Magic',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const HomePage(),
       ),
-      home: const HomePage(),
-    );
+      Magic.instance.relayer
+    ]));
   }
 }
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
